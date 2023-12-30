@@ -4,7 +4,7 @@
 ### AnyKernel setup
 # begin properties
 properties() { '
-kernel.string=IoSeKSU kernel R1 by Semina Alexandru
+kernel.string=SUPER.KERNEL VEUX [CLO]
 do.devicecheck=0
 do.modules=0
 do.systemless=1
@@ -45,5 +45,4 @@ reset_ak;
 split_boot;
 override_cmdline;
 flash_boot;
-ui_print " " "All done. Thank you for using IoSeKSU!";
 ## end vendor_kernel_boot install
