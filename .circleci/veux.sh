@@ -441,7 +441,10 @@ function zipping() {
         # curl -T $ZIPNAME temp.sh; echo
         # curl -T $ZIPNAME https://oshi.at; echo
         curl --upload-file $ZIPNAME https://free.keep.sh
+    
     cd ..
+    rm -rf out
+    
 }
 
     
