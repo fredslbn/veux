@@ -362,7 +362,7 @@ struct sde_crtc {
 	bool misr_reconfigure;
 	u32 misr_frame_count;
 	struct kthread_delayed_work idle_notify_work;
-	struct kthread_work early_wakeup_work;
+//	struct kthread_work early_wakeup_work;
 
 	struct sde_power_event *power_event;
 

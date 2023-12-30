@@ -252,8 +252,8 @@ static ssize_t early_wakeup_store(struct device *device,
 		return -EINVAL;
 	}
 
-	kthread_queue_work(&priv->disp_thread[crtc_id].worker,
-			&sde_crtc->early_wakeup_work);
+//	kthread_queue_work(&priv->disp_thread[crtc_id].worker,
+//			&sde_crtc->early_wakeup_work);
 
 	return count;
 }
@@ -6020,45 +6020,6 @@ static int _sde_debugfs_status_open(struct inode *inode, struct file *file)
 	return single_open(file, _sde_debugfs_status_show, inode->i_private);
 }
 
-
-// patch compiler error 
-// undeclare identifier early_wakeup_work
-
-/*
-* __sde_crtc_early_wakeup_work - trigger early wakeup from user space
-*/
-static void __sde_crtc_early_wakeup_work(struct kthread_work *work)
-{
-	struct sde_crtc *sde_crtc = container_of(work, struct sde_crtc,
-				early_wakeup_work);
-	struct drm_crtc *crtc;
-	struct drm_device *dev;
-	struct msm_drm_private *priv;
-	struct sde_kms *sde_kms;
-
-	if (!sde_crtc) {
-		SDE_ERROR("invalid sde crtc\n");
-		return;
-	}
-
-	if (!sde_crtc->enabled) {
-		SDE_INFO("sde crtc is not enabled\n");
-		return;
-	}
-
-	crtc = &sde_crtc->base;
-	dev = crtc->dev;
-	if (!dev) {
-		SDE_ERROR("invalid drm device\n");
-		return;
-	}
-
-	priv = dev->dev_private;
-	sde_kms = to_sde_kms(priv->kms);
-	sde_kms_trigger_early_wakeup(sde_kms, crtc);
-}
-
-
 static ssize_t _sde_crtc_misr_setup(struct file *file,
 		const char __user *user_buf, size_t count, loff_t *ppos)
 {
@@ -6803,8 +6764,8 @@ struct drm_crtc *sde_crtc_init(struct drm_device *dev, struct drm_plane *plane)
 					__sde_crtc_idle_notify_work);
 	kthread_init_delayed_work(&sde_crtc->static_cache_read_work,
 			__sde_crtc_static_cache_read_work);
-	kthread_init_work(&sde_crtc->early_wakeup_work,
-					__sde_crtc_early_wakeup_work);
+//	kthread_init_work(&sde_crtc->early_wakeup_work,
+//					__sde_crtc_early_wakeup_work);
 
 	SDE_DEBUG("crtc=%d new_llcc=%d, old_llcc=%d\n",
 		crtc->base.id,
