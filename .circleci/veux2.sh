@@ -220,25 +220,6 @@ function exports() {
 # Telegram Bot Integration
 ##----------------------------------------------------------------##
 
-# Export Configs
-function configs() {
-    if [ -d ${KERNEL_DIR}/clang ] || [ -d ${KERNEL_DIR}/aosp-clang  ] || [ -d ${KERNEL_DIR}/cosmic-clang  ]; then
-       if [ $DISABLE_LTO = "1" ]; then
-          sed -i 's/CONFIG_LTO_CLANG=y/# CONFIG_LTO_CLANG is not set/' arch/arm64/configs/${DEFCONFIG}
-          sed -i 's/CONFIG_LTO=y/# CONFIG_LTO is not set/' arch/arm64/configs/${DEFCONFIG}
-          sed -i 's/# CONFIG_LTO_NONE is not set/CONFIG_LTO_NONE=y/' arch/arm64/configs/${DEFCONFIG}
-       elif [ $THIN_LTO = "1" ]; then
-          sed -i 's/# CONFIG_THINLTO is not set/CONFIG_THINLTO=y/' arch/arm64/configs/${DEFCONFIG}
-       fi
-    elif [ -d ${KERNEL_DIR}/gcc64 ]; then
-       sed -i 's/CONFIG_LLVM_POLLY=y/# CONFIG_LLVM_POLLY is not set/' arch/arm64/configs/${DEFCONFIG}
-       sed -i 's/# CONFIG_GCC_GRAPHITE is not set/CONFIG_GCC_GRAPHITE=y/' arch/arm64/configs/${DEFCONFIG}
-       if ! [ $DISABLE_LTO = "1" ]; then
-          sed -i 's/# CONFIG_LTO_GCC is not set/CONFIG_LTO_GCC=y/' arch/arm64/configs/${DEFCONFIG}
-       fi
-    fi
-}
-
 # Speed up build process
 MAKE="./makeparallel"
 
@@ -366,7 +347,6 @@ function zipping() {
 
 cloneTC
 exports
-configs
 compile
 zipping
 
